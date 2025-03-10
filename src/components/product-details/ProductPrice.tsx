@@ -1,28 +1,26 @@
 import { FONTS } from "@/src/constants/fonts";
 import { useCart } from "@/src/hooks/useCart";
+import { Product } from "@/src/types";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 // Define props for flexibility
 interface PriceProps {
-  price?: { [key: string]: number }; // Product prices by size
   showTotal?: boolean; // Show total price instead of product price
+  product?: Product;
 }
 
-const Price = ({ price, showTotal = false }: PriceProps) => {
-  const { selectedSize, cart, getTotalPrice } = useCart();
+const Price = ({ product, showTotal = false }: PriceProps) => {
+  const { selectedSize, cart, getTotalPrice, sizeKey } = useCart();
 
   // Calculate total cart price
   const totalPrice = getTotalPrice();
 
-  console.log(totalPrice);
-
-  // Show total price if enabled, otherwise show product price
   const displayedPrice = showTotal
-    ? totalPrice // Total Cart Price
-    : selectedSize && price?.[selectedSize]
-    ? price[selectedSize].toFixed(2) // Single Product Price
-    : "0.00";
+    ? totalPrice // Show total cart price
+    : sizeKey && product && sizeKey in product // Ensure key exists
+    ? (product[sizeKey] as number).toFixed(2) // Convert to two decimal places
+    : "0.00"; // Default if no price is found
 
   return (
     <View>

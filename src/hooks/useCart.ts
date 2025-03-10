@@ -7,11 +7,16 @@ export const useCart = () => {
   const [cart, setCart] = useAtom(cartAtom);
   const [isCheckedOut, setIsCheckedout] = useState(false);
   const [selectedSize, setSelectedSize] = useAtom(selectedSizeAtom);
-
+  // Ensure selectedSize is mapped to the correct price key
+  const sizeKey = selectedSize
+    ? (`price${
+        selectedSize.charAt(0).toUpperCase() + selectedSize.slice(1)
+      }` as keyof Product)
+    : null;
   // Add or update item quantity with selected size and price
   const addToCart = (product: Product, quantity: number) => {
     // Get the price for the selected size
-    const selectedPrice = product.price[selectedSize];
+    const selectedPrice = product[sizeKey];
 
     // Check if the selected size exists in the product's price list
     if (!selectedPrice) {
@@ -111,6 +116,7 @@ export const useCart = () => {
   return {
     addToCart,
     cart,
+    sizeKey,
     cartItemCount,
     selectedSize,
     setSelectedSize,

@@ -32,6 +32,8 @@ export interface Product {
 
   image: string;
   priceSmall: number;
+  priceMedium: number;
+  priceLarge: number;
   price: {
     small: number;
     medium: number;

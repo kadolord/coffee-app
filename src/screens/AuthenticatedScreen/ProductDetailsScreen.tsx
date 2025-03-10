@@ -51,7 +51,7 @@ const ProductDetailsScreen = ({ route }: ScreenProps<"ProductDetails">) => {
         {/* Price & Add to Cart */}
       </ScrollView>
       <BottomActionBar>
-        <ProductPrice {...product} />
+        <ProductPrice product={product} />
         <AddToCartButton product={product} />
       </BottomActionBar>
     </>
